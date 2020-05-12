@@ -1,16 +1,16 @@
-#include<stdio.h>
-#include<stdlib.h>
-#include<errno.h>
-#include<string.h>
-#include<sys/types.h>
-#include<netinet/in.h>
-#include<sys/socket.h>
-#include<sys/wait.h>
-#include<sys/stat.h>
-#include<fcntl.h>
-#include<unistd.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <errno.h>
+#include <string.h>
+#include <sys/types.h>
+#include <netinet/in.h>
+#include <sys/socket.h>
+#include <sys/wait.h>
+#include <sys/stat.h>
+#include <fcntl.h>
+#include <unistd.h>
 #include <arpa/inet.h>
-#include<netdb.h>
+#include <netdb.h>
 
 #define SERV_PORT                       (10000)
 #define AIRKISS_UDP_BRD_NUM             1
@@ -33,8 +33,7 @@ static int32_t broadcast_message(void)
 
 
 	/* Create UDP socket */
-	if ((sockfd = socket(AF_INET, SOCK_DGRAM, IPPROTO_UDP)) < 0)
-	{
+	if ((sockfd = socket(AF_INET, SOCK_DGRAM, IPPROTO_UDP)) < 0) {
 		printf("create socket failed - cancel udp broadcast\n");
 		return -1;
 	}
@@ -42,8 +41,7 @@ static int32_t broadcast_message(void)
 	printf("Create socket successfully.\n");
 
 	/* Set udpfd option to broadcast */
-	if (-1 == setsockopt(sockfd, SOL_SOCKET, SO_BROADCAST, &on, sizeof(on)))
-	{
+	if (-1 == setsockopt(sockfd, SOL_SOCKET, SO_BROADCAST, &on, sizeof(on))) {
 		printf("Set socket option failed!\n");
 
 		close(sockfd);
@@ -56,8 +54,7 @@ static int32_t broadcast_message(void)
 
 	printf("Broadcast ip addr: , htonl: 0x%x.\n", dst_addr.sin_addr.s_addr);
 
-	for (int i = 0; i < 2*AIRKISS_UDP_BRD_NUM; i++)
-	{
+	for (int i = 0; i < 2*AIRKISS_UDP_BRD_NUM; i++) {
 		send_bytes = sendto(sockfd, tx_buffer, 5, 0, (struct sockaddr *)&dst_addr, sizeof(dst_addr));
 		if (send_bytes < 0)
 		{
@@ -123,8 +120,7 @@ static void udp_bdcast_send_device_info()
 	g_udp_bdcast_addr.sin_port        = htons(AIRKISS_LISTEN_PORT);
 
 	/* Set udpfd option to broadcast */
-	if (-1 == setsockopt(g_sockfd, SOL_SOCKET, SO_BROADCAST, &on, sizeof(on)))
-	{
+	if (-1 == setsockopt(g_sockfd, SOL_SOCKET, SO_BROADCAST, &on, sizeof(on))) {
 		printf("Set socket option failed!\n");
 		return;
 	}
